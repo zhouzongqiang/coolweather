@@ -1,6 +1,7 @@
 package com.zesson.coolweather.util;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.zesson.coolweather.db.City;
 import com.zesson.coolweather.db.County;
@@ -57,6 +58,7 @@ public class Utility {
         return false;
     }
     public static boolean handleCountyResponse(String response,int cityId){
+        Log.i("tag","reee===="+response);
         if (!TextUtils.isEmpty(response))//???TextUtils
             try
             {
@@ -67,7 +69,7 @@ public class Utility {
                     County county = new County();
                     county.setCountyName(countyObject.getString("name"));
                     county.setWeatherId(countyObject.getString("weather_id"));
-                    county.setId(cityId);
+                    county.setCityId(cityId);
                     county.save();
                 }
                 return  true;

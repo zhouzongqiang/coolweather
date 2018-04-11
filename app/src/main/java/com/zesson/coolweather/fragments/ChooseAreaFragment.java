@@ -80,7 +80,6 @@ public class ChooseAreaFragment extends Fragment {
                 }
                 if (currentLevel == LEVEL_COUNTY)
                 {
-
                     queryCiyts();
                 }
             }
@@ -107,7 +106,6 @@ public class ChooseAreaFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
                 Log.i("tag",currentLevel+"");
                 if(currentLevel == LEVEL_PROVINCE)
                 {
@@ -154,7 +152,6 @@ public class ChooseAreaFragment extends Fragment {
         chooseAreaTitleText.setText(selectedProvince.getProvinceName());
         chooseAreaBackBtn.setVisibility(View.VISIBLE);
         cityList = DataSupport.where("provinceid = ?",String.valueOf(selectedProvince.getId())).find(City.class);
-
         if(cityList.size()>0)
         {
             dataList.clear();
@@ -165,7 +162,6 @@ public class ChooseAreaFragment extends Fragment {
             arrayAdapter.notifyDataSetChanged();
             listView.setSelection(0);
             currentLevel = LEVEL_CITY;
-
         }else
         {
             int provinceCode = selectedProvince.getProvinceCode();
@@ -178,8 +174,6 @@ public class ChooseAreaFragment extends Fragment {
         chooseAreaTitleText.setText(selectedCity.getCityName());
         chooseAreaBackBtn.setVisibility(View.VISIBLE);
         countyList = DataSupport.where("cityid = ?",String.valueOf(selectedCity.getId())).find(County.class);
-
-        Log.i("tag",countyList.size()+"");
         if(countyList.size()>0)
         {
             dataList.clear();
@@ -190,19 +184,16 @@ public class ChooseAreaFragment extends Fragment {
             arrayAdapter.notifyDataSetChanged();
             listView.setSelection(0);
             currentLevel = LEVEL_COUNTY;
-
         }else
         {
             int provinceCode = selectedProvince.getProvinceCode();
             int cityCode = selectedCity.getCityCode();
-            Log.i("tag","provinceCode=="+selectedProvince.getProvinceName()+"cityCode=="+selectedCity.getCityName());
             String address = "http://guolin.tech/api/china/"+provinceCode+"/"+cityCode;
             queryFormServer(address,"county");
         }
     }
     private void  queryFormServer(String address,final String type)
     {
-
         showProgressDialog();
         HttpUtil.sendOkHttpRequest(address, new Callback() {
             @Override
@@ -216,12 +207,12 @@ public class ChooseAreaFragment extends Fragment {
                     }
                 });
             }
-
             @Override
             public void onResponse(Call call, Response response) throws IOException {
 
                 String responseText = response.body().string();
                 Log.i("tag",responseText);
+
                 boolean result =false;
                 if ("province".equals(type))
                 {
@@ -229,6 +220,7 @@ public class ChooseAreaFragment extends Fragment {
                 }else if ("city".equals(type))
                 {
                     result = Utility.handleCityResponse(responseText,selectedProvince.getId());
+
                 }else if ("county".equals(type))
                 {
                     result = Utility.handleCountyResponse(responseText,selectedCity.getId());
