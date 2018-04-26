@@ -1,6 +1,7 @@
 package com.zesson.coolweather.fragments;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -16,9 +17,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.zesson.coolweather.R;
+import com.zesson.coolweather.WeatherActivity;
 import com.zesson.coolweather.db.City;
 import com.zesson.coolweather.db.County;
 import com.zesson.coolweather.db.Province;
+import com.zesson.coolweather.gson.Weather;
 import com.zesson.coolweather.util.HttpUtil;
 import com.zesson.coolweather.util.Utility;
 
@@ -115,6 +118,14 @@ public class ChooseAreaFragment extends Fragment {
                 {
                     selectedCity = cityList.get(position);
                     queryCounties();
+                }else  if (currentLevel == LEVEL_COUNTY)
+                {
+                    Log.i("tag","startActivity");
+                    String weatherId = countyList.get(position).getWeatherId();
+                    Intent intent = new Intent(getActivity(), WeatherActivity.class);
+                    intent.putExtra("weather_id",weatherId);
+                    startActivity(intent);
+                    getActivity().finish();
                 }
 
             }

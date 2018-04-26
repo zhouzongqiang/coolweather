@@ -8,14 +8,14 @@ import com.google.gson.annotations.SerializedName;
 
 public class Basic {
     @SerializedName("city")
-private String cityName;
+public String cityName;
     @SerializedName("id")
-private String weatherID;
+    public String weatherId;
 
-private Update update;
+    public Update update;
     public class Update
     {
         @SerializedName("loc")
-        private String updateTime;
+        public String updateTime;
     }
 }
